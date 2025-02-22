@@ -11,7 +11,7 @@ const SignUpButtonC = () => {
           duration={1}
         >
           <Link
-            to="/?sign-in=true"
+            to="/signin"
             className="inline-flex gap-x-2 justify-start items-center py-1 px-5 w-full"
           >
             <span className="relative z-10">Get Started</span>

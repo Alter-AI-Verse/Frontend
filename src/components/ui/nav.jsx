@@ -1,11 +1,14 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom"; // Ensure you are using react-router-dom for Link
+import { HashLink } from "react-router-hash-link"; // Import HashLink
 import { ArrowUpRight } from "lucide-react"; // Make sure lucide-react is installed
 
 export const SlideNavTabs = () => {
   return (
-    <div className="fixed right-0 left-0 top-0 z-40 mx-auto text-white bg-transparent hidden md:block"> {/* Hide on mobile */}
+    <div className="fixed right-0 left-0 top-0 z-40 mx-auto text-white bg-transparent hidden md:block">
+      {" "}
+      {/* Hide on mobile */}
       <SlideTabs />
     </div>
   );
@@ -26,21 +29,29 @@ const SlideTabs = () => {
       className="flex relative items-center py-3 px-5 mx-auto mt-14 text-sm text-gray-200 bg-gradient-to-tr to-transparent rounded-full border-2 w-fit border-white/5 from-zinc-300/5 via-gray-400/5 shadow-lg backdrop-blur-lg"
     >
       <Tab setPosition={setPosition}>
-        <Link className="w-full h-full" to="/">Home</Link>
+        <HashLink className="w-full h-full" to="#home">
+          Home
+        </HashLink>
       </Tab>
       <Tab setPosition={setPosition}>
-        <Link className="w-full h-full" to="#">Features</Link>
+        <Link className="w-full h-full" to="#">
+          Features
+        </Link>
       </Tab>
       <Tab setPosition={setPosition}>
-        <Link className="w-full h-full" to="#">Pricing</Link>
+        <HashLink className="w-full h-full" to="#pricing">
+          Pricing
+        </HashLink>{" "}
+        {/* Use HashLink */}
       </Tab>
       <Tab setPosition={setPosition}>
-        <Link className="w-full h-full" to="#">Contact Us</Link>
+        <Link className="w-full h-full" to="#">
+          Contact Us
+        </Link>
       </Tab>
-      
 
       <Link
-        to="https://github.com" 
+        to="/signup"
         className="inline-flex gap-x-2 justify-start items-start py-3 px-5 ml-3 w-full rounded-3xl border duration-200 sm:w-auto group bg-page-gradient border-white/30 text-md font-geistSans hover:border-zinc-600 hover:bg-transparent/10 hover:text-zinc-100"
       >
         Try Now

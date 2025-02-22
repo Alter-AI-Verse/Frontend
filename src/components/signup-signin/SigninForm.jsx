@@ -1,16 +1,45 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import axios from "axios";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
-import {
-  IconBrandGoogle,
-  IconBrandGithub
-} from "@tabler/icons-react";
+import { IconBrandGoogle, IconBrandGithub } from "@tabler/icons-react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserDataContext } from "../contexts/user-context";
+
 
 export function SignInForm() {
-  const handleSubmit = (e) => {
+
+  const { setUser } = useContext(UserDataContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted");
+
+    try {
+      const response = await axios.post("/api/v1/auth/login", {
+        email,
+        password,
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Login failed");
+      }
+
+      const userdata = response.data;
+      console.log("User data in sign in:", userdata);
+      localStorage.setItem("token", JSON.stringify(userdata.data.accessToken));
+      setUser(userdata.data.user);
+      navigate("/dashboard");
+      alert("Login successful!");
+      setEmail("");
+      setPassword("");
+    } catch (e) {
+      console.error("invalid credentials", e);
+      alert("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -24,11 +53,23 @@ export function SignInForm() {
       <form className="my-8" onSubmit={handleSubmit}>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" placeholder="your@email.com" type="email" />
+          <Input
+            id="email"
+            placeholder="your@email.com"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </LabelInputContainer>
         <LabelInputContainer className="mb-8">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" placeholder="••••••••" type="password" />
+          <Input
+            id="password"
+            placeholder="••••••••"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </LabelInputContainer>
 
         <button
@@ -38,6 +79,8 @@ export function SignInForm() {
           Sign In &rarr;
           <BottomGradient />
         </button>
+
+        <p className="mt-3 text-center text-muted-foreground text-sm">New here?{" "}<span className="text-blue-400"><Link to={"/signup"} >Signup</Link></span></p>
 
         <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 

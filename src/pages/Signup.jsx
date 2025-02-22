@@ -1,4 +1,3 @@
-import React from 'react'
 import { SignupForm } from '../components/signup-signin/SignupForm'
 
 const Signup = () => {
